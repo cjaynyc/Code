@@ -86,6 +86,11 @@ struct LanguageExplorerView: View {
                 }
             }
 
+            if let identity = language.identity {
+                LanguageIdentityView(identity: identity)
+                    .padding(.vertical, 8)
+            }
+
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 12) {
                 statCard("Words", value: "\(language.lexicon.count)")
                 statCard("Consonants", value: "\(language.phonology.consonants.count)")

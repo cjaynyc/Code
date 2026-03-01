@@ -11,6 +11,7 @@ struct ContentView: View {
         case tuningStudio
         case nameReveal(TransliteratedName)
         case languageExplorer(Language)
+        case settings
     }
 
     @State private var path: [Screen] = []
@@ -32,6 +33,8 @@ struct ContentView: View {
                         NameRevealView(name: name, path: $path)
                     case .languageExplorer(let language):
                         LanguageExplorerView(language: language)
+                    case .settings:
+                        SettingsView()
                     }
                 }
         }
@@ -49,6 +52,7 @@ extension ContentView.Screen: Hashable {
             return a.transliterated == b.transliterated
         case (.languageExplorer(let a), .languageExplorer(let b)):
             return a.id == b.id
+        case (.settings, .settings): return true
         default: return false
         }
     }
@@ -61,6 +65,7 @@ extension ContentView.Screen: Hashable {
         case .tuningStudio: hasher.combine("tuning")
         case .nameReveal(let n): hasher.combine("name"); hasher.combine(n.transliterated)
         case .languageExplorer(let l): hasher.combine("explorer"); hasher.combine(l.id)
+        case .settings: hasher.combine("settings")
         }
     }
 }
@@ -75,6 +80,19 @@ struct HomeView: View {
             GradientBackground()
 
             VStack(spacing: 32) {
+                HStack {
+                    Spacer()
+                    Button { path.append(.settings) } label: {
+                        Image(systemName: "gearshape")
+                            .font(.title3)
+                            .foregroundStyle(.white.opacity(0.6))
+                    }
+                }
+
+                if !appState.apiService.configuration.isConfigured {
+                    apiKeyBanner
+                }
+
                 Text("Synesthesia")
                     .font(.system(size: 36, weight: .thin, design: .serif))
                     .foregroundStyle(.white)
@@ -95,6 +113,24 @@ struct HomeView: View {
         #if os(iOS)
         .navigationBarHidden(true)
         #endif
+    }
+
+    private var apiKeyBanner: some View {
+        Button { path.append(.settings) } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.yellow)
+                Text("API key required to generate languages")
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.8))
+                Spacer()
+                Image(systemName: "arrow.right")
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.4))
+            }
+            .padding(12)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+        }
     }
 
     private var createButton: some View {
@@ -118,7 +154,11 @@ struct HomeView: View {
                         path.append(.languageExplorer(language))
                     } label: {
                         GlassmorphicCard {
-                            HStack {
+                            HStack(spacing: 12) {
+                                if let flag = language.identity?.flag {
+                                    FlagView(flag: flag, sigil: language.identity?.sigil)
+                                        .frame(width: 48, height: 32)
+                                }
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(language.name)
                                         .font(.headline)

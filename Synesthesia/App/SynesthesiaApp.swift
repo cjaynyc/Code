@@ -19,19 +19,63 @@ final class AppState: ObservableObject {
     @Published var languages: [Language] = []
     @Published var activeLanguage: Language?
     @Published var isGenerating = false
+    @Published var settings: AppSettings
 
-    let apiService: ClaudeAPIService
-    let imageAnalysis: ImageAnalysisService
-    let languageGeneration: LanguageGenerationService
+    let persistence: PersistenceService
+    private(set) var apiService: ClaudeAPIService
+    private(set) var imageAnalysis: ImageAnalysisService
+    private(set) var languageGeneration: LanguageGenerationService
     let audioService: AudioService
 
     init() {
-        let config = APIConfiguration()
+        let persistence = PersistenceService()
+        self.persistence = persistence
+
+        let loadedSettings = persistence.loadSettings()
+        self.settings = loadedSettings
+
+        // Build API services using saved key if available
+        let config = APIConfiguration(
+            apiKey: loadedSettings.hasAPIKey ? loadedSettings.apiKey : nil,
+            model: loadedSettings.preferredModel
+        )
         let api = ClaudeAPIService(configuration: config)
         self.apiService = api
         self.imageAnalysis = ImageAnalysisService(api: api)
         self.languageGeneration = LanguageGenerationService(api: api)
         self.audioService = AudioService()
+
+        // Load saved languages
+        self.languages = persistence.loadAll()
+    }
+
+    /// Update the API key and rebuild services.
+    func updateAPIKey(_ key: String) {
+        settings.apiKey = key
+        try? persistence.saveSettings(settings)
+
+        let config = APIConfiguration(apiKey: key, model: settings.preferredModel)
+        let api = ClaudeAPIService(configuration: config)
+        self.apiService = api
+        self.imageAnalysis = ImageAnalysisService(api: api)
+        self.languageGeneration = LanguageGenerationService(api: api)
+    }
+
+    /// Save current settings to disk.
+    func saveSettings() {
+        try? persistence.saveSettings(settings)
+    }
+
+    /// Persist a language after creation or update.
+    func persistLanguage(_ language: Language) {
+        try? persistence.save(language)
+    }
+
+    /// Delete a language from memory and disk.
+    func deleteLanguage(_ language: Language) {
+        languages.removeAll { $0.id == language.id }
+        if activeLanguage?.id == language.id { activeLanguage = nil }
+        try? persistence.delete(language)
     }
 
     func createLanguage(
@@ -83,6 +127,7 @@ final class AppState: ObservableObject {
 
         languages.append(language)
         activeLanguage = language
+        persistLanguage(language)
         return language
     }
 }
