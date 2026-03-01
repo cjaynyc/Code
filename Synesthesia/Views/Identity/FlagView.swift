@@ -11,16 +11,26 @@ struct FlagView: View {
     }
 
     var body: some View {
-        Canvas { context, size in
-            drawDivision(context: context, size: size)
-            if let overlay = flag.patternOverlay {
-                drawPattern(overlay, context: context, size: size)
-            }
-            if let border = flag.borderStyle, border != .none {
-                drawBorder(border, context: context, size: size)
-            }
-            if let sigil = sigil {
-                drawCharge(sigil, context: context, size: size)
+        Group {
+            // If custom image data exists, use it instead of procedural generation
+            if let imageData = flag.customImageData, let uiImage = UIImage(data: imageData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } else {
+                // Fall back to procedural generation
+                Canvas { context, size in
+                    drawDivision(context: context, size: size)
+                    if let overlay = flag.patternOverlay {
+                        drawPattern(overlay, context: context, size: size)
+                    }
+                    if let border = flag.borderStyle, border != .none {
+                        drawBorder(border, context: context, size: size)
+                    }
+                    if let sigil = sigil {
+                        drawCharge(sigil, context: context, size: size)
+                    }
+                }
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 8))

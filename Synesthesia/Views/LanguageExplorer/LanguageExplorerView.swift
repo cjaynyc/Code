@@ -6,6 +6,8 @@ struct LanguageExplorerView: View {
     @EnvironmentObject var appState: AppState
 
     @State private var selectedTab: ExplorerTab = .overview
+    @State private var showingIdentityCustomization = false
+    @State private var editableIdentity: LanguageIdentity?
 
     enum ExplorerTab: String, CaseIterable {
         case overview = "Overview"
@@ -33,6 +35,18 @@ struct LanguageExplorerView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .sheet(isPresented: $showingIdentityCustomization) {
+            NavigationStack {
+                IdentityCustomizationView(identity: $editableIdentity)
+            }
+        }
+        .onChange(of: editableIdentity) { _, newIdentity in
+            if let newIdentity = newIdentity,
+               let index = appState.languages.firstIndex(where: { $0.id == language.id }) {
+                appState.languages[index].identity = newIdentity
+                appState.persistLanguage(appState.languages[index])
+            }
+        }
     }
 
     private var tabBar: some View {
@@ -88,10 +102,23 @@ struct LanguageExplorerView: View {
 
             if let identity = language.identity {
                 VStack(spacing: 16) {
-                    Text("Language Identity")
-                        .font(.title3.weight(.light))
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack {
+                        Text("Language Identity")
+                            .font(.title3.weight(.light))
+                            .foregroundStyle(.white)
+                        Spacer()
+                        Button {
+                            editableIdentity = identity
+                            showingIdentityCustomization = true
+                        } label: {
+                            Label("Customize", systemImage: "photo.badge.plus")
+                                .font(.caption)
+                                .foregroundStyle(.white.opacity(0.6))
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(.ultraThinMaterial, in: Capsule())
+                        }
+                    }
 
                     HStack(spacing: 24) {
                         VStack(spacing: 8) {

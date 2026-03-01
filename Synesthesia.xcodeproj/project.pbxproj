@@ -15,8 +15,10 @@
 		28D94AB1AEED1F205324B5DD /* Rune.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FFEEA551A6FAE7A679FCEA /* Rune.swift */; };
 		2B8E69F590FFE2181D6282CE /* InspirationSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A81A8A671533081730C027 /* InspirationSource.swift */; };
 		349F66EB7039E5C6D3207EF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC82FC45AA2C134852F07D4 /* Assets.xcassets */; };
+		36AD0061F5417443E338ED3C /* IdentityCustomizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA8A4A2B498503EAB35AA77 /* IdentityCustomizationView.swift */; };
 		36F8318A12A853E9E6907D45 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3825D669F00C28F71D0A2CA /* Tribe.swift */; };
 		3720C2C1FD244776BC9BFC9C /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE2F96F81F7D36BAD3FC084 /* PersistenceService.swift */; };
+		38424885D3159C36B7D77447 /* PhotoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4248AF0FDD889EBCB83BF756 /* PhotoImage.swift */; };
 		3D1946809FE05064786DF5F9 /* Phonology.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B5324E34D5082C87BCF7CC /* Phonology.swift */; };
 		3DC793F6DEF00FF398E35031 /* GlassmorphicCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A22E6216007E32F2A5A50C1 /* GlassmorphicCard.swift */; };
 		4FFA5F604EA5A8CEFAE8FED4 /* LanguageGenerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B0FE943ECFC542B0D4A23 /* LanguageGenerationService.swift */; };
@@ -49,12 +51,14 @@
 		071FA0E49D638E415FECD5E2 /* MoodProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodProfileView.swift; sourceTree = "<group>"; };
 		162B6DE8400306D3752FDE86 /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		1B98A5987B50F0DC785D076A /* TuningStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuningStudioView.swift; sourceTree = "<group>"; };
+		1BA8A4A2B498503EAB35AA77 /* IdentityCustomizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityCustomizationView.swift; sourceTree = "<group>"; };
 		299E1630C74A5B9793FD4522 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		2BC5735C47AED9CBA111479A /* InspirationBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspirationBoardView.swift; sourceTree = "<group>"; };
 		2EDC7B60AD793084FBDA11C0 /* NameRevealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameRevealView.swift; sourceTree = "<group>"; };
 		34EC0D90BAF5E7ABC55B81E2 /* Lexicon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexicon.swift; sourceTree = "<group>"; };
 		3C6445C115EB0216164B9583 /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
 		41B046F20C587E8835A3CCA3 /* TuningParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuningParameters.swift; sourceTree = "<group>"; };
+		4248AF0FDD889EBCB83BF756 /* PhotoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoImage.swift; sourceTree = "<group>"; };
 		45949EF2FCBB362B35937EE2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		51C679AA95F8C96BA3968955 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		5219A8CCA6B6643FC21ADFAD /* FlagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagView.swift; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				5219A8CCA6B6643FC21ADFAD /* FlagView.swift */,
+				1BA8A4A2B498503EAB35AA77 /* IdentityCustomizationView.swift */,
+				4248AF0FDD889EBCB83BF756 /* PhotoImage.swift */,
 				72BFB1A246603DA6EBE9EDFA /* SigilView.swift */,
 			);
 			path = Identity;
@@ -321,6 +327,7 @@
 				3DC793F6DEF00FF398E35031 /* GlassmorphicCard.swift in Sources */,
 				60667626EAFA2D1B12ADD73E /* GradientBackground.swift in Sources */,
 				05C66A8CF13EB609C1A62862 /* Grammar.swift in Sources */,
+				36AD0061F5417443E338ED3C /* IdentityCustomizationView.swift in Sources */,
 				E8CA839C886598D85D9E6667 /* ImageAnalysisService.swift in Sources */,
 				B5CD82C5C58109A30499E761 /* InspirationBoardView.swift in Sources */,
 				2B8E69F590FFE2181D6282CE /* InspirationSource.swift in Sources */,
@@ -335,6 +342,7 @@
 				7255BBEDCAEF87BFDB845821 /* NameRevealView.swift in Sources */,
 				3720C2C1FD244776BC9BFC9C /* PersistenceService.swift in Sources */,
 				3D1946809FE05064786DF5F9 /* Phonology.swift in Sources */,
+				38424885D3159C36B7D77447 /* PhotoImage.swift in Sources */,
 				DFC21DD53534ED9B545FFC35 /* Phrase.swift in Sources */,
 				28D94AB1AEED1F205324B5DD /* Rune.swift in Sources */,
 				6E9FE0C93C151FB3FEDA4AA9 /* Scenario.swift in Sources */,

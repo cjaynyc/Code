@@ -25,6 +25,8 @@ struct FlagSpec: Codable, Equatable {
     var patternOverlay: String?
     /// Brief description of the flag's symbolism
     var description: String?
+    /// Optional custom image data (JPEG format) — if present, overrides procedural generation
+    var customImageData: Data?
 }
 
 enum FlagDivision: String, Codable {
@@ -71,6 +73,8 @@ struct SigilSpec: Codable, Equatable {
     var paths: [SigilPath]
     /// What the sigil represents
     var description: String?
+    /// Optional custom image data (JPEG format) — if present, overrides procedural generation
+    var customImageData: Data?
 }
 
 enum SigilBaseShape: String, Codable {
