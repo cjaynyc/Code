@@ -8,31 +8,42 @@ struct SigilView: View {
     @State private var revealProgress: CGFloat = 0
 
     var body: some View {
-        Canvas { context, size in
-            let rect = CGRect(origin: .zero, size: size)
-            let center = CGPoint(x: size.width / 2, y: size.height / 2)
-            let radius = min(size.width, size.height) / 2 - 4
-            let color = Color(hex: sigil.primaryColor)
+        Group {
+            // If custom image data exists, use it instead of procedural generation
+            if let imageData = sigil.customImageData, let uiImage = UIImage(data: imageData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .opacity(animated ? Double(revealProgress) : 1)
+            } else {
+                // Fall back to procedural generation
+                Canvas { context, size in
+                    let rect = CGRect(origin: .zero, size: size)
+                    let center = CGPoint(x: size.width / 2, y: size.height / 2)
+                    let radius = min(size.width, size.height) / 2 - 4
+                    let color = Color(hex: sigil.primaryColor)
 
-            // Base shape
-            let basePath = shapePath(sigil.baseShape, center: center, radius: radius)
-            let strokeWidth = strokeWidthFor(sigil.strokeStyle)
-            context.stroke(
-                basePath,
-                with: .color(color.opacity(animated ? Double(revealProgress) : 1)),
-                style: strokeStyleFor(sigil.strokeStyle, width: strokeWidth)
-            )
+                    // Base shape
+                    let basePath = shapePath(sigil.baseShape, center: center, radius: radius)
+                    let strokeWidth = strokeWidthFor(sigil.strokeStyle)
+                    context.stroke(
+                        basePath,
+                        with: .color(color.opacity(animated ? Double(revealProgress) : 1)),
+                        style: strokeStyleFor(sigil.strokeStyle, width: strokeWidth)
+                    )
 
-            // Internal detail layers
-            drawInternalDetails(
-                context: context, center: center, radius: radius,
-                complexity: sigil.internalComplexity, symmetry: sigil.symmetry,
-                color: color, rect: rect
-            )
+                    // Internal detail layers
+                    drawInternalDetails(
+                        context: context, center: center, radius: radius,
+                        complexity: sigil.internalComplexity, symmetry: sigil.symmetry,
+                        color: color, rect: rect
+                    )
 
-            // Render stored bezier paths if any
-            if !sigil.paths.isEmpty {
-                drawSigilPaths(context: context, size: size, color: color)
+                    // Render stored bezier paths if any
+                    if !sigil.paths.isEmpty {
+                        drawSigilPaths(context: context, size: size, color: color)
+                    }
+                }
             }
         }
         .onAppear {
@@ -253,6 +264,7 @@ struct LanguageIdentityView: View {
             Text("Language Identity")
                 .font(.title3.weight(.light))
                 .foregroundStyle(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             HStack(spacing: 24) {
                 VStack(spacing: 8) {
@@ -268,6 +280,11 @@ struct LanguageIdentityView: View {
                             .foregroundStyle(.white.opacity(0.3))
                             .multilineTextAlignment(.center)
                     }
+                    if identity.flag.customImageData != nil {
+                        Label("Custom", systemImage: "photo.fill")
+                            .font(.caption2)
+                            .foregroundStyle(.white.opacity(0.4))
+                    }
                 }
 
                 VStack(spacing: 8) {
@@ -281,6 +298,11 @@ struct LanguageIdentityView: View {
                             .font(.caption2)
                             .foregroundStyle(.white.opacity(0.3))
                             .multilineTextAlignment(.center)
+                    }
+                    if identity.sigil.customImageData != nil {
+                        Label("Custom", systemImage: "photo.fill")
+                            .font(.caption2)
+                            .foregroundStyle(.white.opacity(0.4))
                     }
                 }
             }

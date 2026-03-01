@@ -87,8 +87,54 @@ struct LanguageExplorerView: View {
             }
 
             if let identity = language.identity {
-                LanguageIdentityView(identity: identity)
-                    .padding(.vertical, 8)
+                VStack(spacing: 16) {
+                    Text("Language Identity")
+                        .font(.title3.weight(.light))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    HStack(spacing: 24) {
+                        VStack(spacing: 8) {
+                            FlagView(flag: identity.flag, sigil: identity.sigil)
+                                .aspectRatio(3 / 2, contentMode: .fit)
+                                .frame(maxWidth: 240)
+                            Text("Flag")
+                                .font(.caption)
+                                .foregroundStyle(.white.opacity(0.5))
+                            if let desc = identity.flag.description {
+                                Text(desc)
+                                    .font(.caption2)
+                                    .foregroundStyle(.white.opacity(0.3))
+                                    .multilineTextAlignment(.center)
+                            }
+                            if identity.flag.customImageData != nil {
+                                Label("Custom", systemImage: "photo.fill")
+                                    .font(.caption2)
+                                    .foregroundStyle(.white.opacity(0.4))
+                            }
+                        }
+
+                        VStack(spacing: 8) {
+                            SigilView(sigil: identity.sigil, animated: true)
+                                .frame(width: 120, height: 120)
+                            Text("Sigil")
+                                .font(.caption)
+                                .foregroundStyle(.white.opacity(0.5))
+                            if let desc = identity.sigil.description {
+                                Text(desc)
+                                    .font(.caption2)
+                                    .foregroundStyle(.white.opacity(0.3))
+                                    .multilineTextAlignment(.center)
+                            }
+                            if identity.sigil.customImageData != nil {
+                                Label("Custom", systemImage: "photo.fill")
+                                    .font(.caption2)
+                                    .foregroundStyle(.white.opacity(0.4))
+                            }
+                        }
+                    }
+                }
+                .padding(.vertical, 8)
             }
 
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 12) {
