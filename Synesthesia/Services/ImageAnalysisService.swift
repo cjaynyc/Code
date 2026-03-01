@@ -1,7 +1,7 @@
 import Foundation
 
 /// Analyzes images through Claude's vision API to extract mood profiles.
-final class ImageAnalysisService {
+final class ImageAnalysisService: @unchecked Sendable {
     private let api: ClaudeAPIService
 
     init(api: ClaudeAPIService) {

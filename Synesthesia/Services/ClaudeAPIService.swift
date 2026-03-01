@@ -2,7 +2,7 @@ import Foundation
 
 /// Core HTTP client for the Anthropic Claude Messages API.
 /// Handles authentication, request building, and response parsing.
-final class ClaudeAPIService {
+final class ClaudeAPIService: @unchecked Sendable {
     let configuration: APIConfiguration
     private let session: URLSession
 

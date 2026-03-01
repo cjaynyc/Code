@@ -1,7 +1,7 @@
 import Foundation
 
 /// Generates constructed languages from mood profiles and tuning parameters using Claude.
-final class LanguageGenerationService {
+final class LanguageGenerationService: @unchecked Sendable {
     private let api: ClaudeAPIService
 
     init(api: ClaudeAPIService) {
