@@ -24,6 +24,20 @@ struct MoodProfile: Codable, Equatable {
         warmth: 0, harshness: 0, energy: 0, age: 0,
         organic: 0, complexity: 0, intimacy: 0, darkness: 0
     )
+
+    /// Generate a random mood profile for testing without an API key.
+    static func random() -> MoodProfile {
+        MoodProfile(
+            warmth: Double.random(in: -1...1),
+            harshness: Double.random(in: -1...1),
+            energy: Double.random(in: -1...1),
+            age: Double.random(in: -1...1),
+            organic: Double.random(in: -1...1),
+            complexity: Double.random(in: -1...1),
+            intimacy: Double.random(in: -1...1),
+            darkness: Double.random(in: -1...1)
+        )
+    }
 }
 
 /// Lightweight mood vector used for real-time conversational analysis
